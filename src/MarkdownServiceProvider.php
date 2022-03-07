@@ -15,7 +15,9 @@ class MarkdownServiceProvider extends PackageServiceProvider
             ->hasConfigFile()
             ->hasViews();
 
-        Blade::component('markdown', MarkdownBladeComponent::class);
+        $this->app->afterResolving('blade.compiler', function (BladeCompiler $bladeCompiler) {
+            Blade::component('markdown', MarkdownBladeComponent::class);
+        });
 
         $this->app->bind(MarkdownRenderer::class, function () {
             $config = config('markdown');
